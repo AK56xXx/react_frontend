@@ -1,7 +1,13 @@
-import React from "react";
+import React,{useEffect} from "react";
 import MainArticle from "../components/MainArticle";
+import {useDispatch} from 'react-redux'
+import { getArticlesApi } from "../redux/actions/articles.actions";
 
 const Home = () => {
+  const dispatch = useDispatch(); 
+  useEffect(()=>{
+    dispatch(getArticlesApi())
+  },[])
   const articles = [
     {
       title: "article1",

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "http://127.0.0.1:8000/api";
 
 export const postApi = async (url, body, config = {}) => {
   try {
@@ -45,7 +45,7 @@ export const deleteApi = async (url, body, config = {}) => {
     };
   }
 };
-export const getApi = async (url, body, config = {}) => {
+export const getApi = async (url, config = {}) => {
   try {
     let result = await axios.get(`${BASE_URL}/${url}`, config);
     return {

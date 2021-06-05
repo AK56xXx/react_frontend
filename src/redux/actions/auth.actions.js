@@ -20,12 +20,15 @@ export const authUserFailed = () => {
   };
 };
 
-export const authUserApi =(body)=> async dispatch => {
+export const authUserApi =(body,navigator)=> async dispatch => {
     dispatch(authUser()) ; 
     let result = await postApi('login',body) ; 
+    localStorage.setItem('token',result.result)
+    console.log(result.result)
     if(result.success)
     {
-        dispatch(authUserSuccess(result.result))
+        dispatch(authUserSuccess(result.result)); 
+        navigator.replace('main')
     }else
     {
         dispatch(authUserFailed()); 

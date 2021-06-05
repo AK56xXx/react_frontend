@@ -12,7 +12,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    dispatch(authUserApi(data))
+    dispatch(authUserApi(data,history))
     console.log(data);
 
     //history.replace("/main");
@@ -53,7 +53,7 @@ const Login = () => {
               <div class="mb-2">
                 <div class=" relative ">
                   <input
-                    type="text"
+                    type="password"
                     id="login-with-bg-password"
                     class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="password"
