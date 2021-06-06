@@ -48,10 +48,10 @@ const Header = () => {
               Depots
             </Link>
             <Link
-              to={`${path}/proposition`}
+              to={`${path}/calender`}
               className="px-4 py-1 mr-1 text-gray-500 transition duration-500 ease-in-out transform rounded-md text-base focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 "
             >
-              Boite de proposition
+              Calendrier
             </Link>
           </nav>
           <button className="block p-2 mr-4 text-gray-500 transition duration-500 ease-in-out transform rounded-full text-base focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 lg:ml-auto">
@@ -106,13 +106,19 @@ const Header = () => {
               >
                 Profile
               </a>
-              <a
-                href="#"
+              <Link
+              to={`${path}/messagerie`}
                 className="block px-4 py-1 my-1 text-sm text-gray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:bg-blueGray-100 "
                 role="menuitem"
               >
                 Messagerie
-              </a>
+              </Link>
+              <Link
+                to={`${path}/proposition`}
+                className="px-4 py-1 mr-1 text-gray-500 transition duration-500 ease-in-out transform rounded-md text-base focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 "
+              >
+                proposition
+              </Link>
               <a
                 href="#"
                 className="block px-4 py-1 my-1 text-sm text-gray-500 transition duration-500 ease-in-out transform rounded-md focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 hover:bg-blueGray-100 "

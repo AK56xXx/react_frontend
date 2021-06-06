@@ -1,40 +1,22 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import MainArticle from "../components/MainArticle";
-import {useDispatch} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { getArticlesApi } from "../redux/actions/articles.actions";
+import Chat from "../components/Chat";
 
 const Home = () => {
-  const dispatch = useDispatch(); 
-  useEffect(()=>{
-    dispatch(getArticlesApi())
-  },[])
-  const articles = [
-    {
-      title: "article1",
-      desc: "desc1",
-    },
-    {
-      title: "article2",
-      desc: "desc2",
-    },
-    {
-      title: "article3",
-      desc: "desc3",
-    },
-    {
-      title: "article4",
-      desc: "desc4",
-    },
-    {
-      title: "article4",
-      desc: "desc4",
-    },
-  ];
+  const dispatch = useDispatch();
+  const articleState = useSelector((state) => state.articles);
+  useEffect(() => {
+    dispatch(getArticlesApi());
+  }, []);
+
   return (
     <div>
-      {articles.map((elm) => {
-        return <MainArticle title={elm.title} minDesc={elm.desc} />;
+      {articleState.articles.map((elm) => {
+        return <MainArticle title={elm.titre} minDesc={elm.description} createDate={elm.created_at}/>;
       })}
+      <Chat/>
     </div>
   );
 };

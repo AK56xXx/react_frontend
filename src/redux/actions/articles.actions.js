@@ -20,6 +20,7 @@ export const getArticlesApi = () => async (dispatch) => {
       headers: { Authorization: `Bearer ${token}` }
   };
   let result = await getApi("actualites",config); 
+  console.log(result) ; 
   if(result.success)
   {
       dispatch(getArticlesSucces(result.result))
