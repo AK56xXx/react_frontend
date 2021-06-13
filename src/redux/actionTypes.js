@@ -3,3 +3,7 @@ export const AUTH_USER_SUCCESS = "AUTH_USER_SUCCESS";
 export const AUTH_USER_FAILED = "AUTH_USER_FAILED";
 export const GET_ARTICLES = "GET_ARTICLES";
 export const GET_ARTICLES_SUCCESS = "GET_ARTICLES_SUCCESS";
+
+export const ADD_EVENT="ADD_EVENT"; 
+export const EDIT_EVENT="EDIT_EVENT"; 
+export const DELETE_EVENT="DELETE_EVENT"; 

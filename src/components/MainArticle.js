@@ -1,5 +1,5 @@
 import React from "react";
-
+import News from '../assets/img/news.svg'
 const MainArticle = ({ title, minDesc, createDate }) => {
   return (
     <section class="text-gray-700 ">
@@ -9,7 +9,7 @@ const MainArticle = ({ title, minDesc, createDate }) => {
             class="object-cover object-center rounded"
             alt="hero"
             loading="lazy"
-            src="https://via.placeholder.com/720/600"
+            src={News}
           />
         </div>
         <div class="flex flex-col items-start text-left lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16">
