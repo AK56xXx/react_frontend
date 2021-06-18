@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
-const Modal = ({ show, close }) => {
+import { acceptMeetingApi } from "../redux/actions/meeting.actions";
+const Modal = ({ show, close, selectedApp }) => {
   const { addToast } = useToasts();
+  const { selectedMeeting } = useSelector((state) => state.meetings);
+  const dispatch = useDispatch();
+  const [content, setContent] = useState("");
+  const [date_meeting, setDateMeeting] = useState(Date.now());
   const confirmAppointment = () => {
-    addToast("Confirmation réussite ", { appearance: "success" });
+    if (content == "") {
+      let body = {
+        content: "Votre demande à été accepté ",
+        date_meeting: date_meeting,
+      };
+      dispatch(acceptMeetingApi(selectedMeeting.id, body, addToast));
+    }else 
+    {
+      let body = {
+        content: content,
+        date_meeting: date_meeting.toLocaleString(),
+      };
+      dispatch(acceptMeetingApi(selectedMeeting.id, body, addToast));
+    }
+
     close();
   };
   const declineAppointement = () => {
@@ -40,40 +60,36 @@ const Modal = ({ show, close }) => {
                   <dl>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt class="text-sm font-medium text-gray-500">
-                        Full name
+                        Nom & Prénom
                       </dt>
                       <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        Mickael Poulaz
+                        {selectedMeeting.nom} {selectedMeeting.prenom}
+                      </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt class="text-sm font-medium text-gray-500">Sujet</dt>
+                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {selectedMeeting.sujet}
+                      </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <dt class="text-sm font-medium text-gray-500">Email</dt>
+                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {selectedMeeting.mail}
                       </dd>
                     </div>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt class="text-sm font-medium text-gray-500">
-                        Best techno
+                        Téléphone
                       </dt>
                       <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        React JS
+                        {selectedMeeting.telephone}
                       </dd>
                     </div>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt class="text-sm font-medium text-gray-500">
-                        Email address
-                      </dt>
+                      <dt class="text-sm font-medium text-gray-500">Message</dt>
                       <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        m.poul@example.com
-                      </dd>
-                    </div>
-                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt class="text-sm font-medium text-gray-500">Salary</dt>
-                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        $10,000
-                      </dd>
-                    </div>
-                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt class="text-sm font-medium text-gray-500">About</dt>
-                      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        To get social media testimonials like these, keep your
-                        customers engaged with your social media accounts by
-                        posting regularly yourself
+                        {selectedMeeting.message}
                       </dd>
                     </div>
                   </dl>
@@ -81,7 +97,11 @@ const Modal = ({ show, close }) => {
                 <h2>Réponse:</h2>
                 <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt class="text-sm font-medium text-gray-500">Date</dt>
-                  <input type="date" />
+                  <input
+                    type="date"
+                    value={date_meeting}
+                    onChange={(event) => setDateMeeting(event.target.value)}
+                  />
                   <div class=" p-5 w-40 bg-white rounded-lg">
                     <label class="text-gray-700" for="time">
                       <input
@@ -101,6 +121,10 @@ const Modal = ({ show, close }) => {
                 name="comment"
                 rows="5"
                 cols="40"
+                value={content}
+                onChange={(event) => {
+                  setContent(event.target.value);
+                }}
               ></textarea>
             </label>
           </div>
