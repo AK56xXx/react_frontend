@@ -1,9 +1,11 @@
 import React from "react";
 import News from '../assets/img/news.svg'
+import moment from "moment";
 const MainArticle = ({ title, minDesc, createDate }) => {
   return (
-    <section class="text-gray-700 ">
-      <div class="container flex flex-col items-start px-5 py-16 mx-auto lg:items-center md:flex-row lg:px-28">
+  
+      <div class=" flex flex-col items-start px-5 py-16 mx-auto ">
+      
         <div class="w-full mb-10 lg:w-5/6 lg:max-w-lg md:w-1/2">
           <img
             class="object-cover object-center rounded"
@@ -18,7 +20,7 @@ const MainArticle = ({ title, minDesc, createDate }) => {
             {title}
           </h1>
           <h2 class="mb-1 text-xs font-medium tracking-widest text-black title-font">
-            {createDate}
+            {moment(createDate).format('DD/MM/YYYY')}
           </h2>
           <p class="mb-8 text-base leading-relaxed text-left text-gray-700">
             {minDesc}
@@ -29,7 +31,7 @@ const MainArticle = ({ title, minDesc, createDate }) => {
           </div>
         </div>
       </div>
-    </section>
+   
   );
 };
 

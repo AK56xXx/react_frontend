@@ -10,11 +10,14 @@ const Appointement = () => {
   const users = [1, 2, 3, 4, 5, 6, 7, 8];
   const [selectedApp, setSelectedApp] = useState({});
   const [show, setShow] = useState(false);
-  const showModal = (elm) => {
+  const showModal = (elm,confirmed) => {
     setShow(true);
     dispatch({
       type: "SET_SELECTED_MEETING",
-      payload: elm,
+      payload: {
+        meeting:elm, 
+        confirmed:confirmed
+      },
     });
   };
   const hideModal = () => {
@@ -118,7 +121,7 @@ const Appointement = () => {
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <button
                           onClick={()=>{
-                            showModal(elm)
+                            showModal(elm,true)
                           }}
                           class="text-indigo-600 hover:text-indigo-900"
                         >
@@ -222,7 +225,7 @@ const Appointement = () => {
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <button
                           onClick={()=>{
-                            showModal(elm)
+                            showModal(elm,false)
                           }}
                           class="text-indigo-600 hover:text-indigo-900"
                         >

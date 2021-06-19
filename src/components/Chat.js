@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getConvoInForumApi,
+  sendForumMessageApi,
+  sendMessageInForum,
+} from "../redux/actions/forum.actions";
+import { getUsersApi } from "../redux/actions/users.actions";
+import moment  from "moment";
 const Chat = () => {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  useEffect(() => {
+    dispatch(getUsersApi());
+    dispatch(getConvoInForumApi());
+    
+  }, []);
   const users = [
     {
       name: "user1",
@@ -67,15 +81,15 @@ const Chat = () => {
               </div>
             </div>
 
-            {users.map((elm) => (
+            {state.users.userList.map((elm) => (
               <div class="flex items-center px-4 mb-3 opacity-100">
-                <span
+                {/* <span
                   className={`border ${
                     elm.online
                       ? "border-green-800 bg-green-500"
                       : "border-gray-800 bg-gray-500"
                   } rounded-full w-3 h-3 mr-2`}
-                ></span>
+                ></span> */}
                 <span class="text-white">{elm.name}</span>
               </div>
             ))}
@@ -86,21 +100,25 @@ const Chat = () => {
 
         <div class="w-full flex flex-col bg-white">
           <div class="px-6 py-4 flex-1 overflow-y-scroll">
-            {messages.map((elm) => (
-              <div class="flex items-start mb-4 text-sm">
-                <img
-                  src="https://ca.slack-edge.com/T037T7E5P-U052CUTJC-g683b295c5aa-72"
-                  class="w-10 h-10 rounded mr-3"
-                />
-                <div class="flex flex-col">
-                  <div class="flex items-end">
-                    <span class="font-bold mr-2 ">{elm.sender}</span>
-                    <span class="text-grey text-xs ">{elm.sendTime}</span>
+            {state.forum.conversation.map((elm) =>{
+
+              let user = state.users.userList.find(us=>us.id==elm.sender)
+              return  (
+                <div class="flex items-start mb-4 text-sm">
+                  <img
+                    src="https://ca.slack-edge.com/T037T7E5P-U052CUTJC-g683b295c5aa-72"
+                    class="w-10 h-10 rounded mr-3"
+                  />
+                  <div class="flex flex-col">
+                    <div class="flex items-end">
+                      <span class="font-bold mr-2 ">{user.name}</span>
+                      <span class="text-grey text-xs ">{moment(elm.created_at).format('DD/MM/YYYY')}</span>
+                    </div>
+                    <p class=" text-black pt-1">{elm.message}</p>
                   </div>
-                  <p class=" text-black pt-1">{elm.text}</p>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           <div class="pb-6 px-4 flex-none">
@@ -128,8 +146,11 @@ const Chat = () => {
                       sendTime: Date.now().toLocaleString(),
                       text: textMessage,
                     };
-                    setMessages([...messages, newText]);
-                    setTextMessage('') ; 
+
+                    setTextMessage("");
+                    dispatch(
+                      sendForumMessageApi(state.auth.user.id, textMessage)
+                    );
                   }
                 }}
               />

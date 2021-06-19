@@ -5,15 +5,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import MainNav from "./components/MainNav";
 import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   return (
     <Router>
       <div className="h-screen w-screen">
         <Switch>
-          <Route path="/main">
-            <MainNav />
-          </Route>
+          <PrivateRoute path="/main" component={MainNav}/>
+         
           <Route path="/login">
             <Login />
           </Route>

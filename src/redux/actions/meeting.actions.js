@@ -90,7 +90,7 @@ export const getAcceptedgMeetingApi = () => async (dispatch) => {
     dispatch(getAllAcceptedMeetings());
     let result = await getApi("meetings/1", config);
     if (result.success) {
-      dispatch(getAllAcceptedMeetings(result.result));
+      dispatch(getAllAcceptedMeetingsSuccess(result.result));
     }
   } catch (error) {
     console.log(error.message);

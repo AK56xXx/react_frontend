@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useRouteMatch,useHistory } from "react-router-dom";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   let { path } = useRouteMatch();
+  let history = useHistory(); 
+  const {user} = useSelector((state)=>state.auth)
   return (
     <div className="container items-center ">
       <div className="text-gray-700 transition duration-500 ease-in-out transform bg-white  ">
@@ -54,7 +57,11 @@ const Header = () => {
               Calendrier
             </Link>
           </nav>
-          <button className="block p-2 mr-4 text-gray-500 transition duration-500 ease-in-out transform rounded-full text-base focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 lg:ml-auto">
+          <button className="block p-2 mr-4 text-gray-500 transition duration-500 ease-in-out transform rounded-full text-base focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2 lg:ml-auto" onClick={()=>{
+            localStorage.clear() ; 
+            history.replace('/') ; 
+
+          }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="mx-auto icon icon-tabler icon-tabler-logout"
@@ -90,6 +97,7 @@ const Header = () => {
                   alt=""
                 />
               </button>
+              <p>{user.name}</p>
             </div>
             <div
               className={`absolute ${

@@ -10,6 +10,7 @@ export const meetingsInitState = {
   pendingList: [],
   acceptedList: [],
   selectedMeeting: {},
+  confirmed:false 
 };
 
 const meetingReducer = (state = meetingsInitState, action) => {
@@ -24,7 +25,7 @@ const meetingReducer = (state = meetingsInitState, action) => {
     case GET_ALL_MEETINGS_PENDING_SUCCESS:
       return { ...state, loading: false, pendingList: payload };
     case "SET_SELECTED_MEETING":
-      return { ...state, selectedMeeting: payload };
+      return { ...state, selectedMeeting: payload.meeting,confirmed:payload.confirmed };
 
     default:
       return state;

@@ -4,10 +4,10 @@ import { useToasts } from "react-toast-notifications";
 import { acceptMeetingApi } from "../redux/actions/meeting.actions";
 const Modal = ({ show, close, selectedApp }) => {
   const { addToast } = useToasts();
-  const { selectedMeeting } = useSelector((state) => state.meetings);
+  const { selectedMeeting, confirmed } = useSelector((state) => state.meetings);
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
-  const [date_meeting, setDateMeeting] = useState(Date.now());
+  const [date_meeting, setDateMeeting] = useState(Date.now().toLocaleString());
   const confirmAppointment = () => {
     if (content == "") {
       let body = {
@@ -15,8 +15,7 @@ const Modal = ({ show, close, selectedApp }) => {
         date_meeting: date_meeting,
       };
       dispatch(acceptMeetingApi(selectedMeeting.id, body, addToast));
-    }else 
-    {
+    } else {
       let body = {
         content: content,
         date_meeting: date_meeting.toLocaleString(),
@@ -101,6 +100,7 @@ const Modal = ({ show, close, selectedApp }) => {
                     type="date"
                     value={date_meeting}
                     onChange={(event) => setDateMeeting(event.target.value)}
+                    disabled={confirmed}
                   />
                   <div class=" p-5 w-40 bg-white rounded-lg">
                     <label class="text-gray-700" for="time">
@@ -113,36 +113,47 @@ const Modal = ({ show, close, selectedApp }) => {
                 </div>
               </div>
             </div>
-            <label class="text-gray-700" for="name">
-              <textarea
-                class="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                id="comment"
-                placeholder="Enter your comment"
-                name="comment"
-                rows="5"
-                cols="40"
-                value={content}
-                onChange={(event) => {
-                  setContent(event.target.value);
-                }}
-              ></textarea>
-            </label>
+            {!confirmed ? (
+              <label class="text-gray-700" for="name">
+                <textarea
+                  class="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  id="comment"
+                  placeholder="Enter your comment"
+                  name="comment"
+                  rows="5"
+                  cols="40"
+                  value={content}
+                  onChange={(event) => {
+                    setContent(event.target.value);
+                  }}
+                ></textarea>
+              </label>
+            ) : (
+              <div></div>
+            )}
           </div>
+
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              onClick={confirmAppointment}
-              type="button"
-              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Confirmer
-            </button>
-            <button
-              onClick={declineAppointement}
-              type="button"
-              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Refuser
-            </button>
+            {!confirmed ? (
+              <div>
+                <button
+                  onClick={confirmAppointment}
+                  type="button"
+                  class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Confirmer
+                </button>
+                <button
+                  onClick={declineAppointement}
+                  type="button"
+                  class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Refuser
+                </button>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <button
               onClick={close}
               type="button"

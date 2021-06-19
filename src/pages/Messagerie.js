@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getConvoByUserApi,
+  sendMessageApi,
+} from "../redux/actions/convo.action";
+import { getUsersApi } from "../redux/actions/users.actions";
 import "./customStyles.css";
 const Messagerie = () => {
+  const dispatch = useDispatch();
+  const { userList } = useSelector((state) => state.users);
+  const { user } = useSelector((state) => state.auth);
+  const { conversation } = useSelector((state) => state.convo);
+  const [selectedUser, setSelectedUser] = useState(null);
+  useEffect(() => {
+    dispatch(getUsersApi());
+  }, []);
+  const [message, setMessage] = useState("");
   return (
     <div>
       <div class="h-screen w-full flex antialiased text-gray-200 bg-white overflow-hidden">
@@ -12,15 +28,6 @@ const Messagerie = () => {
                   class="w-16 h-16 relative flex flex-shrink-0"
                   style={{ filter: "invert(100%)" }}
                 ></div>
-
-                <a
-                  href="#"
-                  class="block rounded-full hover:bg-gray-700 bg-red-400 w-10 h-10 p-2 hidden md:block group-hover:block"
-                >
-                  <svg viewBox="0 0 24 24" class="w-full h-full fill-current">
-                    <path d="M6.3 12.3l10-10a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1 0 1.4l-10 10a1 1 0 0 1-.7.3H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 .3-.7zM8 16h2.59l9-9L17 4.41l-9 9V16zm10-2a1 1 0 0 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h6a1 1 0 0 1 0 2H4v14h14v-6z" />
-                  </svg>
-                </a>
               </div>
               <div class="search-box p-4 flex-none">
                 <form onsubmit="">
@@ -46,7 +53,27 @@ const Messagerie = () => {
               </div>
               <div class="active-users flex flex-row p-2 overflow-auto w-0 min-w-full"></div>
               <div class="contacts p-2 flex-1 overflow-y-scroll">
-                <div class="flex justify-between items-center p-3 hover:bg-red-400 rounded-lg relative">
+                {userList.map((elm) => (
+                  <button
+                    class="flex justify-between items-center p-3 hover:bg-red-400 rounded-lg relative"
+                    onClick={() => {
+                      dispatch(getConvoByUserApi(user.id, elm.id));
+                      setSelectedUser(elm.id);
+                    }}
+                  >
+                    <div class="w-16 h-16 relative flex flex-shrink-0">
+                      <img
+                        class="shadow-md rounded-full w-full h-full object-cover"
+                        src="https://randomuser.me/api/portraits/lego/1.jpg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                      <p className="text-black">{elm.name}</p>
+                    </div>
+                  </button>
+                ))}
+                {/* <div class="flex justify-between items-center p-3 hover:bg-red-400 rounded-lg relative">
                   <div class="w-16 h-16 relative flex flex-shrink-0">
                     <img
                       class="shadow-md rounded-full w-full h-full object-cover"
@@ -65,7 +92,7 @@ const Messagerie = () => {
                       <p class="ml-2 whitespace-no-wrap">Just now</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </section>
             <section class="flex flex-col flex-auto border-l border-gray-800">
@@ -74,35 +101,39 @@ const Messagerie = () => {
                   <div class="w-12 h-12 mr-4 relative flex flex-shrink-0">
                     <img
                       class="shadow-md rounded-full w-full h-full object-cover"
-                      src="https://randomuser.me/api/portraits/women/33.jpg"
+                      src="https://randomuser.me/api/portraits/lego/1.jpg"
                       alt=""
                     />
                   </div>
                   <div class="text-sm text-black">
-                    <p class="font-bold text-black">Scarlett Johansson</p>
-                    <p>Active 1h ago</p>
+                    <p class="font-bold text-black">
+                      {selectedUser && selectedUser.name}
+                    </p>
                   </div>
                 </div>
               </div>
               <div class="chat-body p-4 flex-1 overflow-y-scroll">
-                <div class="flex flex-row justify-start">
-                  <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
-                    <img
-                      class="shadow-md rounded-full w-full h-full object-cover"
-                      src="https://randomuser.me/api/portraits/women/33.jpg"
-                      alt=""
-                    />
-                  </div>
-                  <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
-                    <div class="flex items-center group">
-                      <p class="px-6 py-3 rounded-t-full rounded-r-full bg-red-400 max-w-xs lg:max-w-md text-gray-200">
-                        Person A ?
-                      </p>
+                {conversation.map((elm) => (
+                  <div class="flex flex-row justify-start py-2">
+                    <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
+                      <img
+                        class="shadow-md rounded-full w-full h-full object-cover"
+                        src="https://randomuser.me/api/portraits/lego/1.jpg"
+                        alt=""
+                      />
+                    </div>
+
+                    <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+                      <div class="flex items-center group">
+                        <p class="px-6 py-3 rounded-t-full rounded-r-full bg-red-400 max-w-xs lg:max-w-md text-gray-200">
+                          {elm.message}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
 
-                <div class="flex flex-row justify-end">
+                {/* <div class="flex flex-row justify-end">
                   <div class="messages text-sm text-white grid grid-flow-row gap-2">
                     <div class="flex items-center flex-row-reverse group">
                       <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">
@@ -115,7 +146,7 @@ const Messagerie = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div class="chat-footer flex-none">
                 <div class="flex flex-row items-center p-4">
@@ -141,8 +172,19 @@ const Messagerie = () => {
                       <input
                         class="rounded-full py-2 pl-3 pr-10 w-full border border-gray-200 focus:border-gray-700 bg-gray-200 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
                         type="text"
-                        value=""
-                        placeholder="Aa"
+                        value={message}
+                        onKeyUp={(event) => {
+                          if (event.keyCode === 13) {
+                            console.log("SELECTED", selectedUser);
+                            dispatch(
+                              sendMessageApi(user.id, selectedUser, message)
+                            );
+                            setMessage("");
+                          }
+                        }}
+                        onChange={(event) => {
+                          setMessage(event.target.value);
+                        }}
                       />
                     </label>
                   </div>
