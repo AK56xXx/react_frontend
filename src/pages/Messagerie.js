@@ -57,7 +57,8 @@ const Messagerie = () => {
                   <button
                     class="flex justify-between items-center p-3 hover:bg-red-400 rounded-lg relative"
                     onClick={() => {
-                      dispatch(getConvoByUserApi(user.id, elm.id));
+                      let id = localStorage.getItem("userId");
+                      dispatch(getConvoByUserApi(id, elm.id));
                       setSelectedUser(elm.id);
                     }}
                   >
@@ -113,40 +114,45 @@ const Messagerie = () => {
                 </div>
               </div>
               <div class="chat-body p-4 flex-1 overflow-y-scroll">
-                {conversation.map((elm) => (
-                  <div class="flex flex-row justify-start py-2">
-                    <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
-                      <img
-                        class="shadow-md rounded-full w-full h-full object-cover"
-                        src="https://randomuser.me/api/portraits/lego/1.jpg"
-                        alt=""
-                      />
-                    </div>
+                {conversation.map((elm) => {
+                  let id = localStorage.getItem("userId");
+                  if (Number(id) == elm.receiver_id) {
+                    console.log(elm.sender_id) ; 
+                    console.log("ID",id) ; 
+                    return (
+                      <div class="flex flex-row justify-start py-2">
+                        <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
+                          <img
+                            class="shadow-md rounded-full w-full h-full object-cover"
+                            src="https://randomuser.me/api/portraits/lego/1.jpg"
+                            alt=""
+                          />
+                        </div>
 
-                    <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
-                      <div class="flex items-center group">
-                        <p class="px-6 py-3 rounded-t-full rounded-r-full bg-red-400 max-w-xs lg:max-w-md text-gray-200">
-                          {elm.message}
-                        </p>
+                        <div class="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+                          <div class="flex items-center group">
+                            <p class="px-6 py-3 rounded-t-full rounded-r-full bg-red-400 max-w-xs lg:max-w-md text-gray-200">
+                              {elm.message}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
-
-                {/* <div class="flex flex-row justify-end">
-                  <div class="messages text-sm text-white grid grid-flow-row gap-2">
-                    <div class="flex items-center flex-row-reverse group">
-                      <p class="px-6 py-3 rounded-t-full rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">
-                        Person B
-                      </p>
-                    </div>
-                    <div class="flex items-center flex-row-reverse group">
-                      <p class="px-6 py-3 rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">
-                        Shall we go for Hiking this weekend?
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
+                    );
+                  } else if (id==elm.sender_id) {
+                    return (
+                      <div class="flex flex-row justify-end">
+                        <div class="messages text-sm text-white grid grid-flow-row gap-2">
+                          <div class="flex items-center flex-row-reverse group"></div>
+                          <div class="flex items-center flex-row-reverse group">
+                            <p class="px-6 py-3 rounded-l-full bg-blue-700 max-w-xs lg:max-w-md">
+                              {elm.message}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                })}
               </div>
               <div class="chat-footer flex-none">
                 <div class="flex flex-row items-center p-4">
@@ -176,8 +182,9 @@ const Messagerie = () => {
                         onKeyUp={(event) => {
                           if (event.keyCode === 13) {
                             console.log("SELECTED", selectedUser);
+                            let id = localStorage.getItem("userId");
                             dispatch(
-                              sendMessageApi(user.id, selectedUser, message)
+                              sendMessageApi(Number(id), selectedUser, message)
                             );
                             setMessage("");
                           }

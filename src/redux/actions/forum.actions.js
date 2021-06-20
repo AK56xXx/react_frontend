@@ -62,7 +62,7 @@ export const sendForumMessageApi = (sender, message) => async (dispatch) => {
     let result = await postApi(
       "forum",
       {
-        sender: sender,
+        sender_id: sender,
 
         message: message,
       },

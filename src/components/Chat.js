@@ -101,7 +101,7 @@ const Chat = () => {
         <div class="w-full flex flex-col bg-white">
           <div class="px-6 py-4 flex-1 overflow-y-scroll">
             {state.forum.conversation.map((elm) =>{
-
+                console.log("name",elm)
               let user = state.users.userList.find(us=>us.id==elm.sender)
               return  (
                 <div class="flex items-start mb-4 text-sm">
@@ -148,8 +148,10 @@ const Chat = () => {
                     };
 
                     setTextMessage("");
+                    console.log(state.auth.user) ; 
+                    let userID = localStorage.getItem('userId')
                     dispatch(
-                      sendForumMessageApi(state.auth.user.id, textMessage)
+                      sendForumMessageApi(Number(userID), textMessage)
                     );
                   }
                 }}

@@ -59,13 +59,15 @@ export const sendMessageApi =
       let config = {
         headers: { Authorization: `Bearer ${token}` },
       };
+      let body = {
+        sender_id: sender,
+        receiver_id: receiver,
+        message: message,
+      } ; 
+      console.log(body)
       let result = await postApi(
         "chat/send_message",
-        {
-          sender_id: sender,
-          receiver_id: receiver,
-          message: message,
-        },
+        body,
         config
       );
       dispatch(sendMessageSuccess());

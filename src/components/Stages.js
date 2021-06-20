@@ -26,6 +26,8 @@ const AddStages = ({ show, close, dateEvent }) => {
     formData.append("type_stage", data.type_stage);
     formData.append("nom", data.nom);
     formData.append("prenom", data.prenom);
+    formData.append('mail',data.mail)
+    formData.append('telephone',data.telephone)
     dispatch(addNewStageApi(formData,addToast)) ; 
     reset() ; 
   };
@@ -115,6 +117,20 @@ const AddStages = ({ show, close, dateEvent }) => {
                       </div>
                       <div class="w-full">
                         <div class=" relative ">
+                          <label for="firstName" class="text-gray-600">
+                            Email:
+                          </label>
+                          <input
+                            type="text"
+                            id="firstName"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="mail"
+                            {...register("mail", { required: true })}
+                          />
+                        </div>
+                      </div>
+                      <div class="w-full">
+                        <div class=" relative ">
                           <label for="Insitut" class="text-gray-600">
                             Insitut:
                           </label>
@@ -124,6 +140,20 @@ const AddStages = ({ show, close, dateEvent }) => {
                             class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                             placeholder="Insitut"
                             {...register("institut", { required: true })}
+                          />
+                        </div>
+                      </div>
+                      <div class="w-full">
+                        <div class=" relative ">
+                          <label for="phone" class="text-gray-600">
+                            Telephone:
+                          </label>
+                          <input
+                            type="text"
+                            id="phone"
+                            class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            placeholder="Insitut"
+                            {...register("telephone", { required: true })}
                           />
                         </div>
                       </div>

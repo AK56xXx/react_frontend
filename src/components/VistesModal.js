@@ -14,13 +14,13 @@ const VisitesModal = ({ show, close, selectedApp }) => {
     if (content == "") {
       let body = {
         content: "Votre demande à été accepté ",
-        date_meeting: date_meeting,
+        date_visite: date_meeting,
       };
       dispatch(acceptvisitesApi(selectedMeeting.id, body, addToast));
     } else {
       let body = {
         content: content,
-        date_meeting: date_meeting.toLocaleString(),
+        date_visite: date_meeting.toLocaleString(),
       };
       dispatch(acceptvisitesApi(selectedMeeting.id, body, addToast));
     }

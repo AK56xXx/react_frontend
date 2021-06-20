@@ -23,7 +23,8 @@ export const authUserFailed = () => {
 export const authUserApi =(body,navigator)=> async dispatch => {
     dispatch(authUser()) ; 
     let result = await postApi('login',body) ; 
-    localStorage.setItem('token',result.result.token)
+    localStorage.setItem('token',result.result.token) ; 
+    localStorage.setItem('userId',result.result.user.id) ; 
     console.log(result.result)
     if(result.success)
     {

@@ -13,13 +13,13 @@ const StagesModal = ({ show, close, selectedApp }) => {
     if (content == "") {
       let body = {
         content: "Votre demande à été accepté ",
-        date_meeting: date_meeting,
+        date_stage: date_meeting,
       };
       dispatch(acceptStagesApi(selectedMeeting.id, body, addToast));
     } else {
       let body = {
         content: content,
-        date_meeting: date_meeting.toLocaleString(),
+        date_stage: date_meeting.toLocaleString(),
       };
       dispatch(acceptStagesApi(selectedMeeting.id, body, addToast));
     }
