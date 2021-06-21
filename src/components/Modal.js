@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
-import { acceptMeetingApi } from "../redux/actions/meeting.actions";
+import { acceptMeetingApi, refuserMeetingApi } from "../redux/actions/meeting.actions";
 const Modal = ({ show, close, selectedApp }) => {
   const { addToast } = useToasts();
   const { selectedMeeting, confirmed } = useSelector((state) => state.meetings);
@@ -26,7 +26,20 @@ const Modal = ({ show, close, selectedApp }) => {
     close();
   };
   const declineAppointement = () => {
-    addToast("Réfus réussite  ", { appearance: "error" });
+    if (content == "") {
+      let body = {
+        content: "Votre demande à été accepté ",
+        date_meeting: date_meeting,
+      };
+      dispatch(refuserMeetingApi(selectedMeeting.id, body, addToast));
+    } else {
+      let body = {
+        content: content,
+        date_meeting: date_meeting.toLocaleString(),
+      };
+      dispatch(refuserMeetingApi(selectedMeeting.id, body, addToast));
+    }
+
     close();
   };
   return (

@@ -111,3 +111,18 @@ export const acceptMeetingApi = (id,body, toast) => async (dispatch) => {
     }
   } catch (error) {}
 };
+
+export const refuserMeetingApi = (id,body, toast) => async (dispatch) => {
+  try {
+    let token = localStorage.getItem("token");
+    let config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    let result = await postApi("meetings/accepter/" + id,body, config);
+    if (result.success) {
+        toast("Confirmation réussite ", { appearance: "success" });
+        dispatch(getAcceptedgMeetingApi()); 
+        dispatch(getPendingMeetingApi()); 
+    }
+  } catch (error) {}
+};

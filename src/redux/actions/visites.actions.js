@@ -89,6 +89,21 @@ export const acceptvisitesApi = (id, body, toast) => async (dispatch) => {
     }
   } catch (error) {}
 };
+export const refuseVisitesApi = (id, body, toast) => async (dispatch) => {
+  try {
+    let token = localStorage.getItem("token");
+    let config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    let result = await postApi("visits/refuser/" + id, body, config);
+    if (result.success) {
+      toast("Confirmation réussite ", { appearance: "success" });
+      dispatch(getAcceptedVisitApi());
+      dispatch(getPendingVisitesApi());
+    }
+  } catch (error) {}
+};
+
 
 export const getAllPendingVisites = () => {
   return {

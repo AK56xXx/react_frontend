@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { acceptMeetingApi } from "../redux/actions/meeting.actions";
 import { acceptStagesApi } from "../redux/actions/stages.actions";
-import { acceptvisitesApi } from "../redux/actions/visites.actions";
+import {
+  acceptvisitesApi,
+  refuseVisitesApi,
+} from "../redux/actions/visites.actions";
 const VisitesModal = ({ show, close, selectedApp }) => {
   const { addToast } = useToasts();
   const { selectedMeeting, confirmed } = useSelector((state) => state.visites);
@@ -28,7 +31,20 @@ const VisitesModal = ({ show, close, selectedApp }) => {
     close();
   };
   const declineAppointement = () => {
-    addToast("Réfus réussite  ", { appearance: "error" });
+    if (content == "") {
+      let body = {
+        content: "Votre demande à été accepté ",
+        date_visite: date_meeting,
+      };
+      dispatch(refuseVisitesApi(selectedMeeting.id, body, addToast));
+    } else {
+      let body = {
+        content: content,
+        date_visite: date_meeting.toLocaleString(),
+      };
+      dispatch(refuseVisitesApi(selectedMeeting.id, body, addToast));
+    }
+
     close();
   };
   return (

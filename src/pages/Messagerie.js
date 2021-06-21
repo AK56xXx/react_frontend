@@ -53,27 +53,53 @@ const Messagerie = () => {
               </div>
               <div class="active-users flex flex-row p-2 overflow-auto w-0 min-w-full"></div>
               <div class="contacts p-2 flex-1 overflow-y-scroll">
-                {userList.map((elm) => (
-                  <button
-                    class="flex justify-between items-center p-3 hover:bg-red-400 rounded-lg relative"
-                    onClick={() => {
-                      let id = localStorage.getItem("userId");
-                      dispatch(getConvoByUserApi(id, elm.id));
-                      setSelectedUser(elm.id);
-                    }}
-                  >
-                    <div class="w-16 h-16 relative flex flex-shrink-0">
-                      <img
-                        class="shadow-md rounded-full w-full h-full object-cover"
-                        src="https://randomuser.me/api/portraits/lego/1.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                      <p className="text-black">{elm.name}</p>
-                    </div>
-                  </button>
-                ))}
+                {userList.map((elm) => {
+                  if (elm.id == selectedUser.id) {
+                    return (
+                      <button
+                        class={`flex justify-between items-center p-3  bg-red-400 rounded-lg relative`}
+                        onClick={() => {
+                          let id = localStorage.getItem("userId");
+                          dispatch(getConvoByUserApi(id, elm.id));
+                          setSelectedUser(elm);
+                        }}
+                      >
+                        <div class="w-16 h-16 relative flex flex-shrink-0">
+                          <img
+                            class="shadow-md rounded-full w-full h-full object-cover"
+                            src="https://randomuser.me/api/portraits/lego/1.jpg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                          <p className="text-black">{elm.name}</p>
+                        </div>
+                      </button>
+                    );
+                  } else {
+                    return (
+                      <button
+                        class={`flex justify-between items-center p-3   hover:bg-red-400 rounded-lg relative`}
+                        onClick={() => {
+                          let id = localStorage.getItem("userId");
+                          dispatch(getConvoByUserApi(id, elm.id));
+                          setSelectedUser(elm);
+                        }}
+                      >
+                        <div class="w-16 h-16 relative flex flex-shrink-0">
+                          <img
+                            class="shadow-md rounded-full w-full h-full object-cover"
+                            src="https://randomuser.me/api/portraits/lego/1.jpg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
+                          <p className="text-black">{elm.name}</p>
+                        </div>
+                      </button>
+                    );
+                  }
+                })}
                 {/* <div class="flex justify-between items-center p-3 hover:bg-red-400 rounded-lg relative">
                   <div class="w-16 h-16 relative flex flex-shrink-0">
                     <img
@@ -117,8 +143,8 @@ const Messagerie = () => {
                 {conversation.map((elm) => {
                   let id = localStorage.getItem("userId");
                   if (Number(id) == elm.receiver_id) {
-                    console.log(elm.sender_id) ; 
-                    console.log("ID",id) ; 
+                    console.log(elm.sender_id);
+                    console.log("ID", id);
                     return (
                       <div class="flex flex-row justify-start py-2">
                         <div class="w-8 h-8 relative flex flex-shrink-0 mr-4">
@@ -138,7 +164,7 @@ const Messagerie = () => {
                         </div>
                       </div>
                     );
-                  } else if (id==elm.sender_id) {
+                  } else if (id == elm.sender_id) {
                     return (
                       <div class="flex flex-row justify-end">
                         <div class="messages text-sm text-white grid grid-flow-row gap-2">
