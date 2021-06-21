@@ -12,7 +12,9 @@ const Messagerie = () => {
   const { userList } = useSelector((state) => state.users);
   const { user } = useSelector((state) => state.auth);
   const { conversation } = useSelector((state) => state.convo);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState({
+    id:0
+  });
   useEffect(() => {
     dispatch(getUsersApi());
   }, []);
