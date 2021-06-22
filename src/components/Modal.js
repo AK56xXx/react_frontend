@@ -28,14 +28,14 @@ const Modal = ({ show, close, selectedApp }) => {
   const declineAppointement = () => {
     if (content == "") {
       let body = {
-        content: "Votre demande à été accepté ",
+        content: "Votre demande à été refuser ",
         date_meeting: date_meeting,
       };
       dispatch(refuserMeetingApi(selectedMeeting.id, body, addToast));
     } else {
       let body = {
         content: content,
-        date_meeting: date_meeting.toLocaleString(),
+      //  date_meeting: date_meeting.toLocaleString(),
       };
       dispatch(refuserMeetingApi(selectedMeeting.id, body, addToast));
     }

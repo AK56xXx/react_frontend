@@ -29,7 +29,7 @@ const StagesModal = ({ show, close, selectedApp }) => {
   const declineAppointement = () => {
     if (content == "") {
       let body = {
-        content: "Votre demande à été accepté ",
+        content: "Votre demande à été refuser ",
         date_stage: date_meeting,
       };
       dispatch(RefuseStagesApi(selectedMeeting.id, body, addToast));

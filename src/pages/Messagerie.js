@@ -212,7 +212,7 @@ const Messagerie = () => {
                             console.log("SELECTED", selectedUser);
                             let id = localStorage.getItem("userId");
                             dispatch(
-                              sendMessageApi(Number(id), selectedUser, message)
+                              sendMessageApi(Number(id), selectedUser.id, message)
                             );
                             setMessage("");
                           }

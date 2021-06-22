@@ -118,7 +118,7 @@ export const refuserMeetingApi = (id,body, toast) => async (dispatch) => {
     let config = {
       headers: { Authorization: `Bearer ${token}` },
     };
-    let result = await postApi("meetings/accepter/" + id,body, config);
+    let result = await postApi("meetings/refuser/" + id,body, config);
     if (result.success) {
         toast("Confirmation réussite ", { appearance: "success" });
         dispatch(getAcceptedgMeetingApi()); 

@@ -33,7 +33,7 @@ const VisitesModal = ({ show, close, selectedApp }) => {
   const declineAppointement = () => {
     if (content == "") {
       let body = {
-        content: "Votre demande à été accepté ",
+        content: "Votre demande à été refuser ",
         date_visite: date_meeting,
       };
       dispatch(refuseVisitesApi(selectedMeeting.id, body, addToast));
