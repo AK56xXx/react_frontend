@@ -111,7 +111,7 @@ const Chat = () => {
                   />
                   <div class="flex flex-col">
                     <div class="flex items-end">
-                      <span class="font-bold mr-2 ">{user.name}</span>
+                      <span class="font-bold mr-2 ">{ user && user.name}</span>
                       <span class="text-grey text-xs ">{moment(elm.created_at).format('DD/MM/YYYY')}</span>
                     </div>
                     <p class=" text-black pt-1">{elm.message}</p>
@@ -148,7 +148,7 @@ const Chat = () => {
                     };
 
                     setTextMessage("");
-                    console.log(state.auth.user) ; 
+                  
                     let userID = localStorage.getItem('userId')
                     dispatch(
                       sendForumMessageApi(Number(userID), textMessage)
