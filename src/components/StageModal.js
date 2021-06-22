@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { acceptMeetingApi } from "../redux/actions/meeting.actions";
-import { acceptStagesApi, RefuseStagesApi } from "../redux/actions/stages.actions";
+import moment from "moment";
+import {
+  acceptStagesApi,
+  RefuseStagesApi,
+} from "../redux/actions/stages.actions";
 const StagesModal = ({ show, close, selectedApp }) => {
   const { addToast } = useToasts();
   const { selectedMeeting, confirmed } = useSelector((state) => state.stages);
@@ -13,13 +17,13 @@ const StagesModal = ({ show, close, selectedApp }) => {
     if (content == "") {
       let body = {
         content: "Votre demande à été accepté ",
-        date_stage: date_meeting,
+        date_stage: moment(date_meeting).format("DD-MM-YYYY"),
       };
       dispatch(acceptStagesApi(selectedMeeting.id, body, addToast));
     } else {
       let body = {
         content: content,
-        date_stage: date_meeting.toLocaleString(),
+        date_stage: moment(date_meeting).format("DD-MM-YYYY"),
       };
       dispatch(acceptStagesApi(selectedMeeting.id, body, addToast));
     }
@@ -30,13 +34,13 @@ const StagesModal = ({ show, close, selectedApp }) => {
     if (content == "") {
       let body = {
         content: "Votre demande à été refuser ",
-        date_stage: date_meeting,
+        // date_stage: moment(date_meeting).format("DD-MM-YYYY"),
       };
       dispatch(RefuseStagesApi(selectedMeeting.id, body, addToast));
     } else {
       let body = {
         content: content,
-        date_stage: date_meeting.toLocaleString(),
+        // date_stage: moment(date_meeting).format("DD-MM-YYYY"),
       };
       dispatch(RefuseStagesApi(selectedMeeting.id, body, addToast));
     }

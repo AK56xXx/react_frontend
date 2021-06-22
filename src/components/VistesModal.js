@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToasts } from "react-toast-notifications";
-import { acceptMeetingApi } from "../redux/actions/meeting.actions";
-import { acceptStagesApi } from "../redux/actions/stages.actions";
+
 import {
   acceptvisitesApi,
   refuseVisitesApi,
@@ -34,13 +33,11 @@ const VisitesModal = ({ show, close, selectedApp }) => {
     if (content == "") {
       let body = {
         content: "Votre demande à été refuser ",
-        date_visite: date_meeting,
       };
       dispatch(refuseVisitesApi(selectedMeeting.id, body, addToast));
     } else {
       let body = {
         content: content,
-        date_visite: date_meeting.toLocaleString(),
       };
       dispatch(refuseVisitesApi(selectedMeeting.id, body, addToast));
     }
